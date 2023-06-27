@@ -15,11 +15,11 @@ namespace PuzzleEighty
             public int y;
         }
 
-        int width;
-        int height;
-        float cellSize;
-        Vector3 gridOrigin;
-        TGridObject[,] gridObjectsArray;
+        private int width;
+        private int height;
+        private float cellSize;
+        private Vector3 gridOrigin;
+        private TGridObject[,] gridObjectsArray;
 
         public Grid(int width, int height, float cellSize, Vector3 gridOrigin, Func<Grid<TGridObject>, int, int, TGridObject> createdGridObject)
         {
@@ -38,7 +38,7 @@ namespace PuzzleEighty
                 }
             }
 
-            ShowGridMapDebug(false);
+            ShowGridMapDebug(true);
         }
 
         private void ShowGridMapDebug(bool show)
