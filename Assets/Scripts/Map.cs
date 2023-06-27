@@ -16,5 +16,10 @@ namespace PuzzleEighty
             levelMap = new Grid<Tile> (gridWidth, gridHeight, 1f, Vector3.zero, 
                 (Grid<Tile> thisGrid, int xPosition, int yPosition) => new Tile(thisGrid, xPosition, yPosition));
         }
+
+        public void Start()
+        {
+            CreateMap();
+        }
     }
 }
