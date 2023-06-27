@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace PuzzleEighty
 {
-    public class Grid<TGridObject>
+    public class Grid<TGridObject> where TGridObject : BlankTilePosition
     {
         public event EventHandler<OnGridObjectChangedEventArgs> OnGridObjectChanged;
 
@@ -62,7 +62,7 @@ namespace PuzzleEighty
                 Debug.DrawLine(GetWorldPosition(width, 0), GetWorldPosition(width, height), Color.white, 100f);
 
                 OnGridObjectChanged += (object sender, OnGridObjectChangedEventArgs eventArgs) => {
-                    debugTextArray[eventArgs.x, eventArgs.y].text = gridObjectsArray[eventArgs.x, eventArgs.y]?.ToString();
+                    debugTextArray[eventArgs.x, eventArgs.y].text = gridObjectsArray[eventArgs.x, eventArgs.y]?.GetTileType().ToString();
                 };
             }
         }
@@ -93,6 +93,21 @@ namespace PuzzleEighty
         private Vector3 GetWorldPosition(int x, int y)
         {
             return new Vector3(x, y) * cellSize + gridOrigin;
+        }
+
+        public TGridObject GetGridObject(int x, int y)
+        {
+            if (x >= 0 && y >= 0 && x < width && y < height)
+            {
+                return gridObjectsArray[x, y];
+            }
+            else
+                return default;
+        }
+
+        public void TriggerGridObjectChanged(int x, int y)
+        {
+            OnGridObjectChanged?.Invoke(this, new OnGridObjectChangedEventArgs { x = x, y = y });
         }
     }
 }
