@@ -9,12 +9,12 @@ namespace PuzzleEighty
         private int gridWidth = 5;
         private int gridHeight = 5;
 
-        private Grid<Tile> levelMap;
+        private Grid<BlankTilePosition> levelMap;
 
         public void CreateMap()
         {
-            levelMap = new Grid<Tile> (gridWidth, gridHeight, 1f, Vector3.zero, 
-                (Grid<Tile> thisGrid, int xPosition, int yPosition) => new Tile(thisGrid, xPosition, yPosition));
+            levelMap = new Grid<BlankTilePosition> (gridWidth, gridHeight, 1f, Vector3.zero, 
+                (Grid<BlankTilePosition> thisGrid, int xPosition, int yPosition) => new BlankTilePosition(thisGrid, xPosition, yPosition));
         }
 
         public void Start()
