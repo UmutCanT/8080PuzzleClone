@@ -28,10 +28,5 @@ namespace PuzzleEighty
                 }
             }
         }
-
-        public void Start()
-        {
-            CreateMap();
-        }
     }
 }
