@@ -6,15 +6,17 @@ namespace PuzzleEighty
 {
     public class Tile : MonoBehaviour
     {
-        private int tilePositionX;
-        private int tilePositionY;
+        [SerializeField] private SpriteRenderer tileVisual;
         private TileStates tileState;
 
-        public Tile(int tilePositionX, int tilePositionY)
+        private void Awake()
         {
-            this.tilePositionX = tilePositionX;
-            this.tilePositionY = tilePositionY;
             tileState = (TileStates)Random.Range(0, 6);
+        }
+
+        public void ChangeTileVisualSprite(Sprite sprite)
+        {
+            tileVisual.sprite = sprite;
         }
 
         public TileStates TileState { get => tileState; set => tileState = value; }
