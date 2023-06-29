@@ -1,6 +1,13 @@
-﻿namespace PuzzleEighty
+﻿using UnityEngine;
+
+namespace PuzzleEighty
 {
-    public class TileVisualTemplate
+
+    [CreateAssetMenu(fileName = "TileVisualTemplate", menuName = "Tiles/New Tile Visual")]
+    public class TileVisualTemplate : ScriptableObject
     {
+        [SerializeField] private Sprite tileSprite;
+
+        public Sprite TileSprite => tileSprite;
     }
 }
