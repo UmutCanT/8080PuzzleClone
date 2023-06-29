@@ -547,6 +547,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   map: {fileID: 1681656585}
   tileVisualManager: {fileID: 841518494}
+  playerControls: {fileID: 682019075}
 --- !u!1 &1681656583
 GameObject:
   m_ObjectHideFlags: 0

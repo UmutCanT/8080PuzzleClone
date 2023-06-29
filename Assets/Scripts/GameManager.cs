@@ -8,11 +8,20 @@ namespace PuzzleEighty
     {
         [SerializeField] private Map map;
         [SerializeField] private TileVisualManager tileVisualManager;
+        [SerializeField] private PlayerControls playerControls;
+
         private Tile nextTile;
 
         private void Awake()
         {
+            playerControls.OnInteractWithBlankTile += PlayerControls_OnInteractWithBlankTile;
             nextTile = map.SpawnNextTile();
+            GenerateNextTileState();
+        }
+
+        private void PlayerControls_OnInteractWithBlankTile(object sender, PlayerControls.OnInteractWithBlankTileEventArgs e)
+        {
+            e.tile.TileState = nextTile.TileState;
             GenerateNextTileState();
         }
 
@@ -28,7 +37,7 @@ namespace PuzzleEighty
 
         private TileStates RandomizeTileState()
         {
-            return (TileStates)Random.Range(0, 6);
+            return (TileStates)Random.Range(1, 6);
         }
     }
 }
