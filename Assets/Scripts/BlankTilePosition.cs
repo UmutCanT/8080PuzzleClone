@@ -20,7 +20,8 @@ namespace PuzzleEighty
 
         public void SetTile(Tile insertedTile)
         {
-            this.insertedTile = insertedTile; 
+            this.insertedTile = insertedTile;
+            this.insertedTile.transform.position = parentGrid.GetWorldPosition(xPosition, yPosition);
             parentGrid.TriggerGridObjectChanged(xPosition, yPosition);
         }
 

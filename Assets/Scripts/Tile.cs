@@ -4,16 +4,14 @@ using UnityEngine;
 
 namespace PuzzleEighty
 {
-    public class Tile
+    public class Tile : MonoBehaviour
     {
-        //private TileVisualTemplate tileVisual;
         private int tilePositionX;
         private int tilePositionY;
         private TileStates tileState;
 
         public Tile(int tilePositionX, int tilePositionY)
         {
-            //this.tileVisual = tileViusal;
             this.tilePositionX = tilePositionX;
             this.tilePositionY = tilePositionY;
             tileState = (TileStates)Random.Range(0, 6);

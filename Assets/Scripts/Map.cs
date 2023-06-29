@@ -6,10 +6,12 @@ namespace PuzzleEighty
 {
     public class Map : MonoBehaviour
     {
+        [SerializeField] private Tile tilePrefab;
         private int gridWidth = 5;
         private int gridHeight = 5;
 
         private Grid<BlankTilePosition> levelMap;
+        private List<Tile> tiles = new List<Tile>();
 
         public void CreateMap()
         {
@@ -20,8 +22,9 @@ namespace PuzzleEighty
             {
                 for (int y = 0; y < gridHeight; y++)
                 {
-                    Tile tile = new Tile(x, y);
+                    Tile tile = Instantiate(tilePrefab, transform.position, Quaternion.identity);
                     levelMap.GetGridObject(x, y).SetTile(tile);
+                    tiles.Add(tile);
                 }
             }
         }
