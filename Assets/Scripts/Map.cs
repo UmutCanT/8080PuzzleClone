@@ -32,7 +32,6 @@ namespace PuzzleEighty
         public void Start()
         {
             CreateMap();
-            GameObject.FindObjectOfType<TileVisualManager>().GetComponent<TileVisualManager>().ChangeTileVisual(tiles);
         }
     }
 }
