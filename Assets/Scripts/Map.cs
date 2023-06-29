@@ -7,6 +7,7 @@ namespace PuzzleEighty
     public class Map : MonoBehaviour
     {
         [SerializeField] private Tile tilePrefab;
+        private Vector3 nextTilePosition = new Vector3 (2, -2);
         private int gridWidth = 5;
         private int gridHeight = 5;
 
@@ -27,6 +28,11 @@ namespace PuzzleEighty
                     tiles.Add(tile);
                 }
             }
+        }
+
+        public Tile SpawnNextTile()
+        {
+            return Instantiate(tilePrefab, nextTilePosition, Quaternion.identity);
         }
     }
 }

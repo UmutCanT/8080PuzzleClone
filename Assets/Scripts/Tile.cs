@@ -20,7 +20,7 @@ namespace PuzzleEighty
 
         private void Awake()
         {
-            TileState = (TileStates)Random.Range(0, 6);
+            TileState = TileStates.Blank;
         }
 
         public void ChangeTileVisualSprite(Sprite sprite)

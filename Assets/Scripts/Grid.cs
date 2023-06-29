@@ -38,7 +38,7 @@ namespace PuzzleEighty
                 }
             }
 
-            ShowGridMapDebug(true);
+            ShowGridMapDebug(false);
         }
 
         private void ShowGridMapDebug(bool show)
