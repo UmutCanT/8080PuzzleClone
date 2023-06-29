@@ -21,7 +21,13 @@ namespace PuzzleEighty
         public void SetTile(Tile insertedTile)
         {
             this.insertedTile = insertedTile;
-            //ChangeObject
+            this.insertedTile.transform.position = parentGrid.GetWorldPosition(xPosition, yPosition);
+            parentGrid.TriggerGridObjectChanged(xPosition, yPosition);
+        }
+
+        public TileStates GetTileType()
+        {
+            return insertedTile.TileState;
         }
     }
 }
