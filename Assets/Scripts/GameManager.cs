@@ -22,6 +22,7 @@ namespace PuzzleEighty
         private void PlayerControls_OnInteractWithBlankTile(object sender, PlayerControls.OnInteractWithBlankTileEventArgs e)
         {
             e.tile.TileState = nextTile.TileState;
+            Debug.Log(e.tile.TilePosition.XPosition + " , " + e.tile.TilePosition.YPosition);
             GenerateNextTileState();
         }
 
