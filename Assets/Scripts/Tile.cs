@@ -17,6 +17,7 @@ namespace PuzzleEighty
         [SerializeField] private SpriteRenderer tileVisual;
         private BlankTilePosition tilePosition;
         private TileStates tileState;
+        private bool searchedOnTurn;
 
         public TileStates TileState
         {
@@ -29,6 +30,7 @@ namespace PuzzleEighty
         }
 
         public BlankTilePosition TilePosition { get => tilePosition; set => tilePosition = value; }
+        public bool SearchedOnTurn { get => searchedOnTurn; set => searchedOnTurn = value; }
 
         private void Awake()
         {

@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -22,7 +23,7 @@ namespace PuzzleEighty
         private void PlayerControls_OnInteractWithBlankTile(object sender, PlayerControls.OnInteractWithBlankTileEventArgs e)
         {
             e.tile.TileState = nextTile.TileState;
-            Debug.Log(e.tile.TilePosition.XPosition + " , " + e.tile.TilePosition.YPosition);
+            map.SearchNeighbors(e.tile.TilePosition.XPosition, e.tile.TilePosition.YPosition);
             GenerateNextTileState();
         }
 
@@ -39,6 +40,6 @@ namespace PuzzleEighty
         private TileStates RandomizeTileState()
         {
             return (TileStates)Random.Range(1, 6);
-        }
+        }      
     }
 }

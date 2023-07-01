@@ -13,6 +13,7 @@ namespace PuzzleEighty
 
         public int XPosition => xPosition;
         public int YPosition => yPosition;
+        public Tile InsertedTile => insertedTile;
 
         public BlankTilePosition(Grid<BlankTilePosition> parentGrid, int xPosition, int yPosition)
         {
@@ -29,7 +30,7 @@ namespace PuzzleEighty
             parentGrid.TriggerGridObjectChanged(xPosition, yPosition);
         }
 
-        public TileStates GetTileType()
+        public TileStates GetTileState()
         {
             return insertedTile.TileState;
         }

@@ -30,9 +30,90 @@ namespace PuzzleEighty
             }
         }
 
+        private int sameColorCount = 0;
+
+        public void SearchNeighbors(int x, int y)
+        {
+            TileStates currentTileState = levelMap.GetGridObject(x, y).InsertedTile.TileState;
+
+            if (Searchable(x + 1, y))
+            {
+                TileStates nextTileState = levelMap.GetGridObject(x + 1, y).InsertedTile.TileState;
+
+                if (currentTileState == nextTileState)
+                {
+                    Debug.Log(currentTileState + " " + ++sameColorCount);
+                    levelMap.GetGridObject(x + 1, y).InsertedTile.SearchedOnTurn = true;
+                    SearchNeighbors(x + 1, y);
+                }
+            }
+            else
+                Debug.Log(x + " " + y);
+
+            if (Searchable(x -1, y))
+            {
+                TileStates nextTileState = levelMap.GetGridObject(x - 1, y).InsertedTile.TileState;
+
+                if (currentTileState == nextTileState)
+                {
+                    Debug.Log(currentTileState + " " + ++sameColorCount);
+                    levelMap.GetGridObject(x - 1, y).InsertedTile.SearchedOnTurn = true;
+                    SearchNeighbors(x - 1, y);
+                }
+            }
+            else 
+                Debug.Log(x + " " + y);
+
+
+            if (Searchable(x, y + 1))
+            {
+                TileStates nextTileState = levelMap.GetGridObject(x, y + 1).InsertedTile.TileState;
+
+                if (currentTileState == nextTileState)
+                {
+                    Debug.Log(currentTileState + " " + ++sameColorCount);
+                    levelMap.GetGridObject(x, y + 1).InsertedTile.SearchedOnTurn = true;
+                    SearchNeighbors(x, y + 1);
+                }
+            }
+            else
+                Debug.Log(x + " " + y);
+
+            if (Searchable(x, y - 1))
+            {
+                TileStates nextTileState = levelMap.GetGridObject(x, y - 1).InsertedTile.TileState;
+
+                if (currentTileState == nextTileState)
+                {
+                    Debug.Log(currentTileState + " " + ++sameColorCount);
+                    levelMap.GetGridObject(x, y - 1).InsertedTile.SearchedOnTurn = true;
+                    SearchNeighbors(x, y - 1);
+                }
+            }
+            else
+                Debug.Log(x + " " + y);
+        }
+
+        private bool Searchable(int x, int y)
+        {
+            return IsPositionInBounds(x, y) && !levelMap.GetGridObject(x, y).InsertedTile.SearchedOnTurn;
+        }
+
         public Tile SpawnNextTile()
         {
             return Instantiate(tilePrefab, nextTilePosition, Quaternion.identity);
+        }
+
+        public bool IsPositionInBounds(int x, int y)
+        {
+            if (x < 0 || x >= gridWidth || y < 0 || y >= gridHeight)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
         }
     }
 }
