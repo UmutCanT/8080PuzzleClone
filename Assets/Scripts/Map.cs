@@ -47,7 +47,6 @@ namespace PuzzleEighty
 
                 if (currentTileState == nextTileState)
                 {
-                    Debug.Log("Found");
                     levelMap.GetGridObject(x + 1, y).InsertedTile.SearchedOnTurn = true;
                     AddTileToSameStateStack(levelMap.GetGridObject(x + 1, y).InsertedTile);
                     SearchTileNeighbors(x + 1, y);
@@ -60,8 +59,6 @@ namespace PuzzleEighty
 
                 if (currentTileState == nextTileState)
                 {
-                    Debug.Log("Found");
-
                     levelMap.GetGridObject(x - 1, y).InsertedTile.SearchedOnTurn = true;
                     AddTileToSameStateStack(levelMap.GetGridObject(x - 1, y).InsertedTile);
                     SearchTileNeighbors(x - 1, y);
@@ -74,8 +71,6 @@ namespace PuzzleEighty
 
                 if (currentTileState == nextTileState)
                 {
-                    Debug.Log("Found");
-
                     levelMap.GetGridObject(x, y + 1).InsertedTile.SearchedOnTurn = true;
                     AddTileToSameStateStack(levelMap.GetGridObject(x, y + 1).InsertedTile);
                     SearchTileNeighbors(x, y + 1);
@@ -88,8 +83,6 @@ namespace PuzzleEighty
 
                 if (currentTileState == nextTileState)
                 {
-                    Debug.Log("Found");
-
                     levelMap.GetGridObject(x, y - 1).InsertedTile.SearchedOnTurn = true;
                     AddTileToSameStateStack(levelMap.GetGridObject(x, y - 1).InsertedTile);
                     SearchTileNeighbors(x, y - 1);
@@ -103,7 +96,7 @@ namespace PuzzleEighty
 
             if (sameStateTileCount >= 3)
             {
-                for (int i = 1; i < sameStateTileCount; i++)
+                for (int i = 1; i < sameStateTileStack.Count; i++)
                 {
                     sameStateTileStack.Pop().TileState = TileStates.Blank;
                 }
@@ -146,6 +139,13 @@ namespace PuzzleEighty
         public Tile SpawnNextTile()
         {
             return Instantiate(tilePrefab, nextTilePosition, Quaternion.identity);
+        }
+
+        public Tile SpawnPointerTile()
+        {
+            Tile tile = Instantiate(tilePrefab, nextTilePosition, Quaternion.identity);
+            tile.gameObject.SetActive(false);
+            return tile;
         }
 
         public bool IsPositionInBounds(int x, int y)

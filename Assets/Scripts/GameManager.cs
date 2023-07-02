@@ -12,19 +12,45 @@ namespace PuzzleEighty
         [SerializeField] private PlayerControls playerControls;
 
         private Tile nextTile;
+        private Tile pointerTile;
 
         private void Awake()
         {
             playerControls.OnInteractWithBlankTile += PlayerControls_OnInteractWithBlankTile;
+            playerControls.OnInteractWithPreviousTile += PlayerControls_OnInteractWithPreviousTile;
+            playerControls.OnPlayerTurnEnds += PlayerControls_OnPlayerTurnEnds;
             nextTile = map.SpawnNextTile();
+            pointerTile = map.SpawnPointerTile();
+            GenerateNextTileState();
+        }
+     
+        private void PlayerControls_OnPlayerTurnEnds(object sender, PlayerControls.OnPlayerTurnEndsEventArgs e)
+        {
+            for (int i = 0; i < e.interactedTiles.Count; i++)
+            {
+                SearchTile(e.interactedTiles.Pop());
+            }
+            
             GenerateNextTileState();
         }
 
         private void PlayerControls_OnInteractWithBlankTile(object sender, PlayerControls.OnInteractWithBlankTileEventArgs e)
         {
-            e.tile.TileState = nextTile.TileState;
-            SearchTile(e.tile);
-            GenerateNextTileState();
+            if (e.previousTile != null)
+            {
+                e.previousTile.TileState--;
+                e.interactedTile.TileState = e.previousTile.TileState;
+            }
+            else
+            {
+                e.interactedTile.TileState = nextTile.TileState;
+            }
+        }
+
+        private void PlayerControls_OnInteractWithPreviousTile(object sender, PlayerControls.OnInteractWithPreviousTileEventArgs e)
+        {
+            e.previousTile.TileState = TileStates.Blank;
+            e.interactedTile.TileState++;
         }
 
         private void SearchTile(Tile tile)
