@@ -14,6 +14,12 @@ namespace PuzzleEighty
         private Grid<BlankTilePosition> levelMap;
         private List<Tile> tiles = new List<Tile>();
 
+        private int sameStateTileCount = 0;
+        private Stack<Tile> sameStateTileStack = new Stack<Tile>();
+        private Stack<Tile> tileStackOnTurn = new Stack<Tile>(); // Later when we add swipe
+
+
+
         public void CreateMap()
         {
             levelMap = new Grid<BlankTilePosition> (gridWidth, gridHeight, 1f, Vector3.zero,
@@ -30,71 +36,107 @@ namespace PuzzleEighty
             }
         }
 
-        private int sameColorCount = 0;
-
         public void SearchNeighbors(int x, int y)
         {
             TileStates currentTileState = levelMap.GetGridObject(x, y).InsertedTile.TileState;
 
-            if (Searchable(x + 1, y))
+            if (SearchableTile(x + 1, y))
             {
                 TileStates nextTileState = levelMap.GetGridObject(x + 1, y).InsertedTile.TileState;
 
                 if (currentTileState == nextTileState)
                 {
-                    Debug.Log(currentTileState + " " + ++sameColorCount);
+                    Debug.Log("Found");
                     levelMap.GetGridObject(x + 1, y).InsertedTile.SearchedOnTurn = true;
+                    AddTileToSameStateStack(levelMap.GetGridObject(x + 1, y).InsertedTile);
                     SearchNeighbors(x + 1, y);
                 }
             }
-            else
-                Debug.Log(x + " " + y);
 
-            if (Searchable(x -1, y))
+            if (SearchableTile(x -1, y))
             {
                 TileStates nextTileState = levelMap.GetGridObject(x - 1, y).InsertedTile.TileState;
 
                 if (currentTileState == nextTileState)
                 {
-                    Debug.Log(currentTileState + " " + ++sameColorCount);
+                    Debug.Log("Found");
+
                     levelMap.GetGridObject(x - 1, y).InsertedTile.SearchedOnTurn = true;
+                    AddTileToSameStateStack(levelMap.GetGridObject(x - 1, y).InsertedTile);
                     SearchNeighbors(x - 1, y);
                 }
             }
-            else 
-                Debug.Log(x + " " + y);
 
-
-            if (Searchable(x, y + 1))
+            if (SearchableTile(x, y + 1))
             {
                 TileStates nextTileState = levelMap.GetGridObject(x, y + 1).InsertedTile.TileState;
 
                 if (currentTileState == nextTileState)
                 {
-                    Debug.Log(currentTileState + " " + ++sameColorCount);
+                    Debug.Log("Found");
+
                     levelMap.GetGridObject(x, y + 1).InsertedTile.SearchedOnTurn = true;
+                    AddTileToSameStateStack(levelMap.GetGridObject(x, y + 1).InsertedTile);
                     SearchNeighbors(x, y + 1);
                 }
             }
-            else
-                Debug.Log(x + " " + y);
 
-            if (Searchable(x, y - 1))
+            if (SearchableTile(x, y - 1))
             {
                 TileStates nextTileState = levelMap.GetGridObject(x, y - 1).InsertedTile.TileState;
 
                 if (currentTileState == nextTileState)
                 {
-                    Debug.Log(currentTileState + " " + ++sameColorCount);
+                    Debug.Log("Found");
+
                     levelMap.GetGridObject(x, y - 1).InsertedTile.SearchedOnTurn = true;
+                    AddTileToSameStateStack(levelMap.GetGridObject(x, y - 1).InsertedTile);
                     SearchNeighbors(x, y - 1);
                 }
             }
-            else
-                Debug.Log(x + " " + y);
         }
 
-        private bool Searchable(int x, int y)
+        public void CheckSameStateStack()
+        {
+            Debug.Log("Checking");
+            if (sameStateTileCount >= 3)
+            {
+                Debug.Log("More than 3");
+                for (int i = 1; i < sameStateTileCount; i++)
+                {
+                    sameStateTileStack.Pop().TileState = TileStates.Blank;
+                }
+
+                sameStateTileStack.Pop().TileState++;
+            }
+
+            sameStateTileCount = 0;
+            sameStateTileStack.Clear();
+        }
+        
+        public void FirstTile(int x, int y)
+        {
+            AddTileToSameStateStack(levelMap.GetGridObject(x, y).InsertedTile);
+            levelMap.GetGridObject(x, y).InsertedTile.SearchedOnTurn = true;
+        }
+
+        private void AddTileToSameStateStack(Tile tile)
+        {
+            sameStateTileStack.Push(tile);
+            Debug.Log(sameStateTileCount);
+            sameStateTileCount++;
+            Debug.Log(sameStateTileCount);
+        }
+
+        public void ClearSearch()
+        {
+            foreach (Tile tile in tiles)
+            {
+                tile.SearchedOnTurn = false;
+            }
+        }
+
+        private bool SearchableTile(int x, int y)
         {
             return IsPositionInBounds(x, y) && !levelMap.GetGridObject(x, y).InsertedTile.SearchedOnTurn;
         }
