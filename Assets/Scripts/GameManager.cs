@@ -23,11 +23,20 @@ namespace PuzzleEighty
         private void PlayerControls_OnInteractWithBlankTile(object sender, PlayerControls.OnInteractWithBlankTileEventArgs e)
         {
             e.tile.TileState = nextTile.TileState;
-            map.FirstTile(e.tile.TilePosition.XPosition, e.tile.TilePosition.YPosition);
-            map.SearchNeighbors(e.tile.TilePosition.XPosition, e.tile.TilePosition.YPosition);
-            map.CheckSameStateStack();
-            map.ClearSearch();
+            SearchTile(e.tile);
             GenerateNextTileState();
+        }
+
+        private void SearchTile(Tile tile)
+        {
+            map.TileToSearch(tile, out int x, out int y);
+            map.SearchTileNeighbors(x, y);
+            map.CheckSameStateStack(out Tile combinedTile);
+            map.ClearSearch();
+            if (combinedTile != null)
+            {
+                SearchTile(combinedTile);
+            }
         }
 
         private void Start()

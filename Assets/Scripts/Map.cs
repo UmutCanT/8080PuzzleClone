@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -36,7 +37,7 @@ namespace PuzzleEighty
             }
         }
 
-        public void SearchNeighbors(int x, int y)
+        public void SearchTileNeighbors(int x, int y)
         {
             TileStates currentTileState = levelMap.GetGridObject(x, y).InsertedTile.TileState;
 
@@ -49,7 +50,7 @@ namespace PuzzleEighty
                     Debug.Log("Found");
                     levelMap.GetGridObject(x + 1, y).InsertedTile.SearchedOnTurn = true;
                     AddTileToSameStateStack(levelMap.GetGridObject(x + 1, y).InsertedTile);
-                    SearchNeighbors(x + 1, y);
+                    SearchTileNeighbors(x + 1, y);
                 }
             }
 
@@ -63,7 +64,7 @@ namespace PuzzleEighty
 
                     levelMap.GetGridObject(x - 1, y).InsertedTile.SearchedOnTurn = true;
                     AddTileToSameStateStack(levelMap.GetGridObject(x - 1, y).InsertedTile);
-                    SearchNeighbors(x - 1, y);
+                    SearchTileNeighbors(x - 1, y);
                 }
             }
 
@@ -77,7 +78,7 @@ namespace PuzzleEighty
 
                     levelMap.GetGridObject(x, y + 1).InsertedTile.SearchedOnTurn = true;
                     AddTileToSameStateStack(levelMap.GetGridObject(x, y + 1).InsertedTile);
-                    SearchNeighbors(x, y + 1);
+                    SearchTileNeighbors(x, y + 1);
                 }
             }
 
@@ -91,41 +92,42 @@ namespace PuzzleEighty
 
                     levelMap.GetGridObject(x, y - 1).InsertedTile.SearchedOnTurn = true;
                     AddTileToSameStateStack(levelMap.GetGridObject(x, y - 1).InsertedTile);
-                    SearchNeighbors(x, y - 1);
+                    SearchTileNeighbors(x, y - 1);
                 }
             }
         }
 
-        public void CheckSameStateStack()
+        public void CheckSameStateStack(out Tile combinedTile)
         {
-            Debug.Log("Checking");
+            combinedTile = null;
+
             if (sameStateTileCount >= 3)
             {
-                Debug.Log("More than 3");
                 for (int i = 1; i < sameStateTileCount; i++)
                 {
                     sameStateTileStack.Pop().TileState = TileStates.Blank;
                 }
 
-                sameStateTileStack.Pop().TileState++;
+                combinedTile = sameStateTileStack.Pop();
+                combinedTile.TileState++;
             }
 
             sameStateTileCount = 0;
             sameStateTileStack.Clear();
         }
         
-        public void FirstTile(int x, int y)
+        public void TileToSearch(Tile tile, out int x, out int y)
         {
-            AddTileToSameStateStack(levelMap.GetGridObject(x, y).InsertedTile);
-            levelMap.GetGridObject(x, y).InsertedTile.SearchedOnTurn = true;
+            x = tile.TilePosition.XPosition;
+            y = tile.TilePosition.YPosition;
+            AddTileToSameStateStack(tile);
+            tile.SearchedOnTurn = true;
         }
 
         private void AddTileToSameStateStack(Tile tile)
         {
-            sameStateTileStack.Push(tile);
-            Debug.Log(sameStateTileCount);
+            sameStateTileStack.Push(tile);;
             sameStateTileCount++;
-            Debug.Log(sameStateTileCount);
         }
 
         public void ClearSearch()
