@@ -26,12 +26,10 @@ namespace PuzzleEighty
      
         private void PlayerControls_OnPlayerTurnEnds(object sender, PlayerControls.OnPlayerTurnEndsEventArgs e)
         {
-            //while (e.interactedTiles.Count > 0)
-            //{
-            //    SearchTile(e.interactedTiles.Pop());
-            //}
-
-            SearchTile(e.interactedTiles.Pop());
+            while (e.interactedTiles.Count > 0)
+            {
+                SearchTile(e.interactedTiles.Pop());
+            }          
             GenerateNextTileState();
         }
 
