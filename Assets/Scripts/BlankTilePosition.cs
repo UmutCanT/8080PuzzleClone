@@ -11,6 +11,10 @@ namespace PuzzleEighty
         private Grid<BlankTilePosition> parentGrid;
         private Tile insertedTile;
 
+        public int XPosition => xPosition;
+        public int YPosition => yPosition;
+        public Tile InsertedTile => insertedTile;
+
         public BlankTilePosition(Grid<BlankTilePosition> parentGrid, int xPosition, int yPosition)
         {
             this.parentGrid = parentGrid;
@@ -22,10 +26,11 @@ namespace PuzzleEighty
         {
             this.insertedTile = insertedTile;
             this.insertedTile.transform.position = parentGrid.GetWorldPosition(xPosition, yPosition);
+            this.insertedTile.TilePosition = this;
             parentGrid.TriggerGridObjectChanged(xPosition, yPosition);
         }
 
-        public TileStates GetTileType()
+        public TileStates GetTileState()
         {
             return insertedTile.TileState;
         }

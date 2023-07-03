@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 namespace PuzzleEighty
 {
@@ -16,25 +15,32 @@ namespace PuzzleEighty
         } 
 
         [SerializeField] private SpriteRenderer tileVisual;
+        private BlankTilePosition tilePosition;
         private TileStates tileState;
+        private bool searchedOnTurn;
+
+        public TileStates TileState
+        {
+            get => tileState;
+            set
+            {
+                tileState = value;
+                OnTileStateChange?.Invoke(this, new OnTileStateChangeEventArgs { tile = this });
+            }
+        }
+
+        public BlankTilePosition TilePosition { get => tilePosition; set => tilePosition = value; }
+        public bool SearchedOnTurn { get => searchedOnTurn; set => searchedOnTurn = value; }
 
         private void Awake()
         {
-            TileState = (TileStates)Random.Range(0, 6);
+            TileState = TileStates.Blank;
         }
 
         public void ChangeTileVisualSprite(Sprite sprite)
         {
             tileVisual.sprite = sprite;
-        }
-
-        public TileStates TileState { get => tileState; 
-            set {
-                tileState = value;
-                OnTileStateChange?.Invoke(this, new OnTileStateChangeEventArgs { tile = this});
-            }
-        
-        }
+        }       
     }
 
     public enum TileStates

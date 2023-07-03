@@ -38,7 +38,7 @@ namespace PuzzleEighty
                 }
             }
 
-            ShowGridMapDebug(true);
+            ShowGridMapDebug(false);
         }
 
         private void ShowGridMapDebug(bool show)
@@ -62,7 +62,7 @@ namespace PuzzleEighty
                 Debug.DrawLine(GetWorldPosition(width, 0), GetWorldPosition(width, height), Color.white, 100f);
 
                 OnGridObjectChanged += (object sender, OnGridObjectChangedEventArgs eventArgs) => {
-                    debugTextArray[eventArgs.x, eventArgs.y].text = gridObjectsArray[eventArgs.x, eventArgs.y]?.GetTileType().ToString();
+                    debugTextArray[eventArgs.x, eventArgs.y].text = gridObjectsArray[eventArgs.x, eventArgs.y]?.GetTileState().ToString();
                 };
             }
         }
