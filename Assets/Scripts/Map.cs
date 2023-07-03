@@ -18,9 +18,6 @@ namespace PuzzleEighty
 
         private int sameStateTileCount = 0;
         private Stack<Tile> sameStateTileStack = new Stack<Tile>();
-        private Stack<Tile> tileStackOnTurn = new Stack<Tile>(); // Later when we add swipe
-
-
 
         public void CreateMap()
         {
