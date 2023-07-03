@@ -85,7 +85,7 @@ namespace PuzzleEighty
                     }
                 }
             }
-            else if (Input.GetMouseButtonUp(0))
+            else if (Input.GetMouseButtonUp(0) && interactedTiles.Count > 0)
             {
                 OnPlayerTurnEnds?.Invoke(this, new OnPlayerTurnEndsEventArgs { interactedTiles = interactedTiles});
                 interactedTiles.Clear();
