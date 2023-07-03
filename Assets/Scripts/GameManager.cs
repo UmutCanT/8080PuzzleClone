@@ -19,11 +19,17 @@ namespace PuzzleEighty
             playerControls.OnInteractWithBlankTile += PlayerControls_OnInteractWithBlankTile;
             playerControls.OnInteractWithPreviousTile += PlayerControls_OnInteractWithPreviousTile;
             playerControls.OnPlayerTurnEnds += PlayerControls_OnPlayerTurnEnds;
+            Tile.OnExplosionState += Tile_OnExplosionState;
             nextTile = map.SpawnNextTile();
             //pointerTile = map.SpawnPointerTile();
             GenerateNextTileState();
         }
-     
+
+        private void Tile_OnExplosionState(object sender, Tile.OnExplosionStateEventArgs e)
+        {
+            map.TileToSearch(e.tile, out int x, out int y);
+        }
+
         private void PlayerControls_OnPlayerTurnEnds(object sender, PlayerControls.OnPlayerTurnEndsEventArgs e)
         {
             while (e.interactedTiles.Count > 0)
