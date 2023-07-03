@@ -26,11 +26,11 @@ namespace PuzzleEighty
      
         private void PlayerControls_OnPlayerTurnEnds(object sender, PlayerControls.OnPlayerTurnEndsEventArgs e)
         {
-            for (int i = 0; i < e.interactedTiles.Count; i++)
+            while(e.interactedTiles.Count > 0)
             {
                 SearchTile(e.interactedTiles.Pop());
             }
-            
+            e.interactedTiles.Clear();
             GenerateNextTileState();
         }
 

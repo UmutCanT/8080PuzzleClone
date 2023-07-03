@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -30,7 +31,6 @@ namespace PuzzleEighty
         }
 
         private Tile currentTile;
-        private Tile previousTile;
         private Stack<Tile> interactedTiles = new Stack<Tile>();
 
         private void Update()
@@ -48,11 +48,9 @@ namespace PuzzleEighty
 
                         if (tile.TileState == TileStates.Blank) 
                         {
-                            currentTile = tile;
-                            previousTile = null;
+                            currentTile = tile;                           
                             OnInteractWithBlankTile?.Invoke(this, new OnInteractWithBlankTileEventArgs { interactedTile = tile, previousTile = null });
                             interactedTiles.Push(tile);
-                            Debug.Log( "added", tile);
                         }
                     }
                 }
@@ -69,36 +67,21 @@ namespace PuzzleEighty
                         Tile tile = hit.collider.gameObject.GetComponentInParent<Tile>();
                         if (tile != currentTile)
                         {
+                            Debug.Log("new tile");
                             if (tile.TileState == TileStates.Blank && currentTile.TileState > TileStates.Five)
                             {
-                                previousTile = currentTile;
+                                Debug.Log("new blank tile");
+                                OnInteractWithBlankTile?.Invoke(this, new OnInteractWithBlankTileEventArgs { interactedTile = tile, previousTile = currentTile });
                                 currentTile = tile;
-                                OnInteractWithBlankTile?.Invoke(this, new OnInteractWithBlankTileEventArgs { interactedTile = tile, previousTile = previousTile });
                                 interactedTiles.Push(tile);
-                                Debug.Log("added", tile);
-
-                            }
-                        }
-
-                        if (tile == previousTile)
-                        {
-                            if (interactedTiles.TryPeek(out Tile t))
+                            }else if(interactedTiles.Contains(tile))
                             {
-                                previousTile = t;
-                            }
-                            currentTile = tile;
-                            OnInteractWithPreviousTile?.Invoke(this, new OnInteractWithPreviousTileEventArgs { interactedTile = tile, previousTile = previousTile });
-                            interactedTiles.Pop();
-                            Debug.Log("removed", tile);
-
-                            //if (interactedTiles.Count >= 2)
-                            //{
-                            //    if (interactedTiles.TryPeek(out Tile t))
-                            //    {
-                            //        previousTile = t;
-                            //    }
-                            //}                         
-                        }
+                                Debug.Log("new previous tile");
+                                OnInteractWithPreviousTile?.Invoke(this, new OnInteractWithPreviousTileEventArgs { interactedTile = tile, previousTile = currentTile });
+                                currentTile = tile;
+                                interactedTiles.Pop();
+                            }                                                               
+                        }                       
                     }
                 }
             }
@@ -107,7 +90,6 @@ namespace PuzzleEighty
                 OnPlayerTurnEnds?.Invoke(this, new OnPlayerTurnEndsEventArgs { interactedTiles = interactedTiles });
                 interactedTiles.Clear();
                 currentTile = null;
-                previousTile = null;
             }
         }
     }

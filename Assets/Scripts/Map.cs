@@ -41,51 +41,55 @@ namespace PuzzleEighty
         {
             TileStates currentTileState = levelMap.GetGridObject(x, y).InsertedTile.TileState;
 
-            if (SearchableTile(x + 1, y))
+            if (currentTileState >= TileStates.Five)
             {
-                TileStates nextTileState = levelMap.GetGridObject(x + 1, y).InsertedTile.TileState;
 
-                if (currentTileState == nextTileState)
+                if (SearchableTile(x + 1, y))
                 {
-                    levelMap.GetGridObject(x + 1, y).InsertedTile.SearchedOnTurn = true;
-                    AddTileToSameStateStack(levelMap.GetGridObject(x + 1, y).InsertedTile);
-                    SearchTileNeighbors(x + 1, y);
+                    TileStates nextTileState = levelMap.GetGridObject(x + 1, y).InsertedTile.TileState;
+
+                    if (currentTileState == nextTileState)
+                    {
+                        levelMap.GetGridObject(x + 1, y).InsertedTile.SearchedOnTurn = true;
+                        AddTileToSameStateStack(levelMap.GetGridObject(x + 1, y).InsertedTile);
+                        SearchTileNeighbors(x + 1, y);
+                    }
                 }
-            }
 
-            if (SearchableTile(x -1, y))
-            {
-                TileStates nextTileState = levelMap.GetGridObject(x - 1, y).InsertedTile.TileState;
-
-                if (currentTileState == nextTileState)
+                if (SearchableTile(x - 1, y))
                 {
-                    levelMap.GetGridObject(x - 1, y).InsertedTile.SearchedOnTurn = true;
-                    AddTileToSameStateStack(levelMap.GetGridObject(x - 1, y).InsertedTile);
-                    SearchTileNeighbors(x - 1, y);
+                    TileStates nextTileState = levelMap.GetGridObject(x - 1, y).InsertedTile.TileState;
+
+                    if (currentTileState == nextTileState)
+                    {
+                        levelMap.GetGridObject(x - 1, y).InsertedTile.SearchedOnTurn = true;
+                        AddTileToSameStateStack(levelMap.GetGridObject(x - 1, y).InsertedTile);
+                        SearchTileNeighbors(x - 1, y);
+                    }
                 }
-            }
 
-            if (SearchableTile(x, y + 1))
-            {
-                TileStates nextTileState = levelMap.GetGridObject(x, y + 1).InsertedTile.TileState;
-
-                if (currentTileState == nextTileState)
+                if (SearchableTile(x, y + 1))
                 {
-                    levelMap.GetGridObject(x, y + 1).InsertedTile.SearchedOnTurn = true;
-                    AddTileToSameStateStack(levelMap.GetGridObject(x, y + 1).InsertedTile);
-                    SearchTileNeighbors(x, y + 1);
+                    TileStates nextTileState = levelMap.GetGridObject(x, y + 1).InsertedTile.TileState;
+
+                    if (currentTileState == nextTileState)
+                    {
+                        levelMap.GetGridObject(x, y + 1).InsertedTile.SearchedOnTurn = true;
+                        AddTileToSameStateStack(levelMap.GetGridObject(x, y + 1).InsertedTile);
+                        SearchTileNeighbors(x, y + 1);
+                    }
                 }
-            }
 
-            if (SearchableTile(x, y - 1))
-            {
-                TileStates nextTileState = levelMap.GetGridObject(x, y - 1).InsertedTile.TileState;
-
-                if (currentTileState == nextTileState)
+                if (SearchableTile(x, y - 1))
                 {
-                    levelMap.GetGridObject(x, y - 1).InsertedTile.SearchedOnTurn = true;
-                    AddTileToSameStateStack(levelMap.GetGridObject(x, y - 1).InsertedTile);
-                    SearchTileNeighbors(x, y - 1);
+                    TileStates nextTileState = levelMap.GetGridObject(x, y - 1).InsertedTile.TileState;
+
+                    if (currentTileState == nextTileState)
+                    {
+                        levelMap.GetGridObject(x, y - 1).InsertedTile.SearchedOnTurn = true;
+                        AddTileToSameStateStack(levelMap.GetGridObject(x, y - 1).InsertedTile);
+                        SearchTileNeighbors(x, y - 1);
+                    }
                 }
             }
         }
