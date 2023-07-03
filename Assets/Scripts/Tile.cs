@@ -8,11 +8,17 @@ namespace PuzzleEighty
     public class Tile : MonoBehaviour
     {
         public static event EventHandler<OnTileStateChangeEventArgs> OnTileStateChange;
+        public static event EventHandler<OnExplosionStateEventArgs> OnExplosionState;
 
         public class OnTileStateChangeEventArgs : EventArgs
         {
             public Tile tile;
-        } 
+        }
+
+        public class OnExplosionStateEventArgs : EventArgs
+        {
+            public Tile tile;
+        }
 
         [SerializeField] private SpriteRenderer tileVisual;
         private BlankTilePosition tilePosition;
@@ -26,6 +32,10 @@ namespace PuzzleEighty
             {
                 tileState = value;
                 OnTileStateChange?.Invoke(this, new OnTileStateChangeEventArgs { tile = this });
+                if (tileState == TileStates.Explosion)
+                {
+                    OnExplosionState?.Invoke(this, new OnExplosionStateEventArgs { tile = this});
+                }
             }
         }
 

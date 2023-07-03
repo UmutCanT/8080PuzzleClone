@@ -116,7 +116,7 @@ namespace PuzzleEighty
             y = tile.TilePosition.YPosition;
             AddTileToSameStateStack(tile);
             tile.SearchedOnTurn = true;
-        }
+        }       
 
         private void AddTileToSameStateStack(Tile tile)
         {
