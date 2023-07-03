@@ -9,6 +9,8 @@ namespace PuzzleEighty
 {
     public class PlayerControls : MonoBehaviour
     {
+        private readonly string TILE_TAG = "Tile";
+
         public event EventHandler<OnInteractWithBlankTileEventArgs> OnInteractWithBlankTile;
         public event EventHandler<OnInteractWithPreviousTileEventArgs> OnInteractWithPreviousTile;
         public event EventHandler<OnPlayerTurnEndsEventArgs> OnPlayerTurnEnds;
@@ -42,7 +44,7 @@ namespace PuzzleEighty
 
                 if (Physics.Raycast(ray, out hit))
                 {
-                    if (hit.collider.CompareTag("Tile"))
+                    if (hit.collider.CompareTag(TILE_TAG))
                     {
                         Tile tile = hit.collider.gameObject.GetComponentInParent<Tile>();
 
@@ -62,21 +64,19 @@ namespace PuzzleEighty
 
                 if (Physics.Raycast(ray, out hit))
                 {
-                    if (hit.collider.CompareTag("Tile"))
+                    if (hit.collider.CompareTag(TILE_TAG))
                     {
                         Tile tile = hit.collider.gameObject.GetComponentInParent<Tile>();
                         if (tile != currentTile)
                         {
-                            Debug.Log("new tile");
                             if (tile.TileState == TileStates.Blank && currentTile.TileState > TileStates.Five)
                             {
-                                Debug.Log("new blank tile");
                                 OnInteractWithBlankTile?.Invoke(this, new OnInteractWithBlankTileEventArgs { interactedTile = tile, previousTile = currentTile });
                                 currentTile = tile;
                                 interactedTiles.Push(tile);
-                            }else if(interactedTiles.Contains(tile))
+                            }
+                            else if(interactedTiles.Contains(tile))
                             {
-                                Debug.Log("new previous tile");
                                 OnInteractWithPreviousTile?.Invoke(this, new OnInteractWithPreviousTileEventArgs { interactedTile = tile, previousTile = currentTile });
                                 currentTile = tile;
                                 interactedTiles.Pop();
@@ -87,7 +87,7 @@ namespace PuzzleEighty
             }
             else if (Input.GetMouseButtonUp(0))
             {
-                OnPlayerTurnEnds?.Invoke(this, new OnPlayerTurnEndsEventArgs { interactedTiles = interactedTiles });
+                OnPlayerTurnEnds?.Invoke(this, new OnPlayerTurnEndsEventArgs { interactedTiles = interactedTiles});
                 interactedTiles.Clear();
                 currentTile = null;
             }

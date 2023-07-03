@@ -20,17 +20,18 @@ namespace PuzzleEighty
             playerControls.OnInteractWithPreviousTile += PlayerControls_OnInteractWithPreviousTile;
             playerControls.OnPlayerTurnEnds += PlayerControls_OnPlayerTurnEnds;
             nextTile = map.SpawnNextTile();
-            pointerTile = map.SpawnPointerTile();
+            //pointerTile = map.SpawnPointerTile();
             GenerateNextTileState();
         }
      
         private void PlayerControls_OnPlayerTurnEnds(object sender, PlayerControls.OnPlayerTurnEndsEventArgs e)
         {
-            while(e.interactedTiles.Count > 0)
-            {
-                SearchTile(e.interactedTiles.Pop());
-            }
-            e.interactedTiles.Clear();
+            //while (e.interactedTiles.Count > 0)
+            //{
+            //    SearchTile(e.interactedTiles.Pop());
+            //}
+
+            SearchTile(e.interactedTiles.Pop());
             GenerateNextTileState();
         }
 
